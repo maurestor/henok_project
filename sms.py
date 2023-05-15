@@ -2,11 +2,28 @@ import time
 import serial
 import RPi.GPIO as GPIO
 
+GPIO.setmode(GPIO.BCM)
+
+
+        
+
+
 # Instancia de clase con tres pasos 
 class EnviarSMS:
     def __init__(self, phone_number = "+527773008850", message = "Alerta!"):
         self.phone_number = phone_number
         self.message = message
+        
+        pulsador = 21
+        GPIO.setup(pulsador, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        
+        while 1:
+            estado = GPIO.input(pulsador)
+            if estado == 0:
+                print("Alarma!!!")
+                self.start_connection()
+                self.send_sms()
+                time.sleep(0.2)
         
     def start_connection(self):
         self.start_phone_connection = serial.Serial("/dev/ttyS0", 115200, timeout=1)
@@ -29,8 +46,8 @@ class EnviarSMS:
 
 # Declarando la clase con los valores por defecto
 sms = EnviarSMS()
-sms.start_connection()
-sms.send_sms()
+# sms.start_connection()
+# sms.send_sms()
 
 # sms1 = EnviarSMS("+52 56302561", "Se movio el pir 2")
 # sms1.start_connection()
