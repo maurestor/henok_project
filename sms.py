@@ -1,10 +1,10 @@
 import time
 import serial
 
-recipient = "+1234567890"
-message = "Hello, World!"
+recipient = "+527773008850"
+message = "Alerta!"
 
-phone = serial.Serial("/dev/ttyACM0",  460800, timeout=5)
+phone = serial.Serial("/dev/ttyS0", 115200, timeout=1)
 try:
     time.sleep(0.5)
     phone.write(b'ATZ\r')
